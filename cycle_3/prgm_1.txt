@@ -1,0 +1,136 @@
+mysql> CREATE DATABASE ELECTRICITY_BILL;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE ELECTRICITY_BILL;
+Database changed
+
+mysql> CREATE TABLE elec_details(id INT PRIMARY KEY,name VARCHAR(20),address VARCHAR(28),last_reading INT, curr_reading INT,month INT,year INT, unit_chrg INT DEFAULT 2);
+Query OK, 0 rows affected (0.35 sec)
+
+mysql> DESC elec_details;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| id           | int(11)     | NO   | PRI | NULL    |       |
+| name         | varchar(20) | YES  |     | NULL    |       |
+| address      | varchar(28) | YES  |     | NULL    |       |
+| last_reading | int(11)     | YES  |     | NULL    |       |
+| curr_reading | int(11)     | YES  |     | NULL    |       |
+| month        | int(11)     | YES  |     | NULL    |       |
+| year         | int(11)     | YES  |     | NULL    |       |
+| unit_chrg    | int(11)     | YES  |     | 2       |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> INSERT INTO elec_details(id,name,address,last_reading) VALUES(2001,'John','Address 1 House',250),(2002,'Jim','Address 2',300),(2003,'Hopper','Address 3',100);
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM elec_details;
++------+--------+-----------------+--------------+--------------+-------+------+-----------+
+| id   | name   | address         | last_reading | curr_reading | month | year | unit_chrg |
++------+--------+-----------------+--------------+--------------+-------+------+-----------+
+| 2001 | John   | Address 1 House |          250 |         NULL |  NULL | NULL |         2 |
+| 2002 | Jim    | Address 2       |          300 |         NULL |  NULL | NULL |         2 |
+| 2003 | Hopper | Address 3       |          100 |         NULL |  NULL | NULL |         2 |
++------+--------+-----------------+--------------+--------------+-------+------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE elec_details ADD COLUMN charge INT;
+Query OK, 0 rows affected (0.56 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE elec_details CHANGE COLUMN unit_chrg unit INT DEFAULT 2;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM elec_details;
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+| id   | name   | address         | last_reading | curr_reading | month | year | unit | charge |
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+| 2001 | John   | Address 1 House |          250 |         NULL |  NULL | NULL |    2 |   NULL |
+| 2002 | Jim    | Address 2       |          300 |         NULL |  NULL | NULL |    2 |   NULL |
+| 2003 | Hopper | Address 3       |          100 |         NULL |  NULL | NULL |    2 |   NULL |
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+3 rows in set (0.00 sec)
+
+
+DELIMITER #
+DROP PROCEDURE IF EXISTS calc_bill;
+CREATE PROCEDURE calc_bill(cust_id INT,curr_read INT)
+BEGIN
+DECLARE cunit INT;
+DECLARE ccharge INT;
+DECLARE cname VARCHAR(20);
+DECLARE last_read INT;
+DECLARE last_date DATE;
+DECLARE flag INT DEFAULT 0;
+DECLARE cur CURSOR FOR SELECT id,name,last_reading FROM elec_details WHERE id=cust_id;
+DECLARE continue handler for not found set flag =1;
+OPEN cur;
+readloop: loop
+IF(flag=1) THEN leave readloop;
+ELSE fetch cur into cust_id,cname,last_read;
+END IF;
+END loop;
+SET cunit=curr_read-last_read;
+SET ccharge=cunit*2;
+SET last_date=date_add(curdate(), INTERVAL 10 DAY);
+UPDATE elec_details SET month=MONTH(curdate()) WHERE cust_id=id;
+UPDATE elec_details SET year=YEAR(curdate()) WHERE cust_id=id;
+UPDATE elec_details SET curr_reading=curr_read WHERE cust_id=id;
+UPDATE elec_details SET unit=cunit WHERE cust_id=id;
+UPDATE elec_details SET charge=ccharge WHERE cust_id=id;
+SELECT cust_id,cname,last_date,cunit,ccharge;
+CLOSE cur;
+END #
+DELIMITER ;
+
+mysql> call calc_bill(2001,500);
++---------+-------+------------+-------+---------+
+| cust_id | cname | last_date  | cunit | ccharge |
++---------+-------+------------+-------+---------+
+|    2001 | John  | 2022-08-06 |   250 |     500 |
++---------+-------+------------+-------+---------+
+1 row in set (0.17 sec)
+
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> SELECT * FROM elec_details;
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+| id   | name   | address         | last_reading | curr_reading | month | year | unit | charge |
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+| 2001 | John   | Address 1 House |          250 |          500 |     7 | 2022 |  250 |    500 |
+| 2002 | Jim    | Address 2       |          300 |         NULL |  NULL | NULL |    2 |   NULL |
+| 2003 | Hopper | Address 3       |          100 |         NULL |  NULL | NULL |    2 |   NULL |
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> call calc_bill(2002,600);
++---------+-------+------------+-------+---------+
+| cust_id | cname | last_date  | cunit | ccharge |
++---------+-------+------------+-------+---------+
+|    2002 | Jim   | 2022-08-06 |   300 |     600 |
++---------+-------+------------+-------+---------+
+1 row in set (0.19 sec)
+
+mysql> call calc_bill(2003,800);
++---------+--------+------------+-------+---------+
+| cust_id | cname  | last_date  | cunit | ccharge |
++---------+--------+------------+-------+---------+
+|    2003 | Hopper | 2022-08-06 |   700 |    1400 |
++---------+--------+------------+-------+---------+
+1 row in set (0.16 sec)
+
+mysql> SELECT * FROM elec_details;
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+| id   | name   | address         | last_reading | curr_reading | month | year | unit | charge |
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+| 2001 | John   | Address 1 House |          250 |          500 |     7 | 2022 |  250 |    500 |
+| 2002 | Jim    | Address 2       |          300 |         NULL |  NULL | NULL |    2 |   NULL |
+| 2003 | Hopper | Address 3       |          100 |         NULL |  NULL | NULL |    2 |   NULL |
++------+--------+-----------------+--------------+--------------+-------+------+------+--------+
+3 rows in set (0.00 sec)
+
+
+

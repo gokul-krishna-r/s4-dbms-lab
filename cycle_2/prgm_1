@@ -1,0 +1,174 @@
+Gokul Krishna R
+20220040
+
+mysql> CREATE DATABASE BANK_ACC;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE BANK_ACC;
+Database changed
+
+mysql> CREATE TABLE ACCOUNT(acc_no INT PRIMARY KEY,acc_name VARCHAR(28),address VARCHAR(28),pan VARCHAR(28),acc_type VARCHAR(28),balance INT,phone INT);
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> DESC ACCOUNT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| acc_no   | int(11)     | NO   | PRI | NULL    |       |
+| acc_name | varchar(28) | YES  |     | NULL    |       |
+| address  | varchar(28) | YES  |     | NULL    |       |
+| pan      | varchar(28) | YES  |     | NULL    |       |
+| acc_type | varchar(28) | YES  |     | NULL    |       |
+| balance  | int(11)     | YES  |     | NULL    |       |
+| phone    | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> CREATE TABLE TRANSACTION(trans_id INT PRIMARY KEY,acc_no INT, trans_date DATE, amount INT, trans_type VARCHAR(28));
+Query OK, 0 rows affected (0.36 sec)
+
+mysql> DESC TRANSACTION;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| trans_id   | int(11)     | NO   | PRI | NULL    |       |
+| acc_no     | int(11)     | YES  |     | NULL    |       |
+| trans_date | date        | YES  |     | NULL    |       |
+| amount     | int(11)     | YES  |     | NULL    |       |
+| trans_type | varchar(28) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES(201,'Ram','Address 1','DKUPGJS201','current',4300,2255),(202,'Shyam','Address 2','DKUPGJS202','current',200000,3355),(203,'Rex','Address 3','DKUPGJS203','savings',10000,4455),(204,'Tex','Address 4','DKUPGJS204','current',1000,5555),(205,'Lex','Address 5','DKUPGJS205','savings',300000,6655),(206,'Nex','Address 6','DKUPGJS206','current',500000,7755),(207,'John','Address 7','DKUPGJS207','current',6000,7755),(208,'Jake','Address 8','DKUPGJS208','savings',5000000,8855),(209,'Jin','Address 9','DKUPGJS209','current',7000,9955),(210,'Jim','Address 10','DKUPGJS210','current',1500,0066),(211,'Sully','Address 11','DKUPGJS211','savings',70000,1166);
+Query OK, 11 rows affected (0.03 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM ACCOUNT;
++--------+----------+------------+------------+----------+---------+-------+
+| acc_no | acc_name | address    | pan        | acc_type | balance | phone |
++--------+----------+------------+------------+----------+---------+-------+
+|    201 | Ram      | Address 1  | DKUPGJS201 | current  |    4300 |  2255 |
+|    202 | Shyam    | Address 2  | DKUPGJS202 | current  |  200000 |  3355 |
+|    203 | Rex      | Address 3  | DKUPGJS203 | savings  |   10000 |  4455 |
+|    204 | Tex      | Address 4  | DKUPGJS204 | current  |    1000 |  5555 |
+|    205 | Lex      | Address 5  | DKUPGJS205 | savings  |  300000 |  6655 |
+|    206 | Nex      | Address 6  | DKUPGJS206 | current  |  500000 |  7755 |
+|    207 | John     | Address 7  | DKUPGJS207 | current  |    6000 |  7755 |
+|    208 | Jake     | Address 8  | DKUPGJS208 | savings  | 5000000 |  8855 |
+|    209 | Jin      | Address 9  | DKUPGJS209 | current  |    7000 |  9955 |
+|    210 | Jim      | Address 10 | DKUPGJS210 | current  |    1500 |    66 |
+|    211 | Sully    | Address 11 | DKUPGJS211 | savings  |   70000 |  1166 |
++--------+----------+------------+------------+----------+---------+-------+
+11 rows in set (0.00 sec)
+
+mysql> INSERT INTO TRANSACTION VALUES(0001,201,'2019-5-3',4300,'credit'),(0002,201,'2020-5-3',3000,'debit'),(0003,202,'2018-5-3',100000,'credit'),(0004,203,'2022-5-12',5000,'debit'),(0005,204,'2017-4-3',1000,'credit'),(0006,205,'2019-5-3',3000,'credit'),(0007,205,'2022-5-10',10000,'debit'),(0008,206,'2019-8-14',60000,'credit'),(0009,207,'2022-5-12',300,'debit'),(0010,208,'2020-8-18',100000,'debit'),(0011,208,'2021-4-12',5000,'debit'),(0012,209,'2022-5-11',500,'credit'),(0013,210,'2020-5-3',1100,'debit'),(0014,211,'2015-12-12',10000,'credit');
+Query OK, 14 rows affected (0.03 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM TRANSACTION;
++----------+--------+------------+--------+------------+
+| trans_id | acc_no | trans_date | amount | trans_type |
++----------+--------+------------+--------+------------+
+|        1 |    201 | 2019-05-03 |   4300 | credit     |
+|        2 |    201 | 2020-05-03 |   3000 | debit      |
+|        3 |    202 | 2018-05-03 | 100000 | credit     |
+|        4 |    203 | 2022-05-12 |   5000 | debit      |
+|        5 |    204 | 2017-04-03 |   1000 | credit     |
+|        6 |    205 | 2019-05-03 |   3000 | credit     |
+|        7 |    205 | 2022-05-10 |  10000 | debit      |
+|        8 |    206 | 2019-08-14 |  60000 | credit     |
+|        9 |    207 | 2022-05-12 |    300 | debit      |
+|       10 |    208 | 2020-08-18 | 100000 | debit      |
+|       11 |    208 | 2021-04-12 |   5000 | debit      |
+|       12 |    209 | 2022-05-11 |    500 | credit     |
+|       13 |    210 | 2020-05-03 |   1100 | debit      |
+|       14 |    211 | 2015-12-12 |  10000 | credit     |
++----------+--------+------------+--------+------------+
+14 rows in set (0.00 sec)
+
+mysql> CREATE VIEW Current_Account AS SELECT acc_name,acc_no,pan FROM ACCOUNT WHERE acc_type='current';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SELECT * FROM Current_Account;
++----------+--------+------------+
+| acc_name | acc_no | pan        |
++----------+--------+------------+
+| Ram      |    201 | DKUPGJS201 |
+| Shyam    |    202 | DKUPGJS202 |
+| Tex      |    204 | DKUPGJS204 |
+| Nex      |    206 | DKUPGJS206 |
+| John     |    207 | DKUPGJS207 |
+| Jin      |    209 | DKUPGJS209 |
+| Jim      |    210 | DKUPGJS210 |
++----------+--------+------------+
+7 rows in set (0.00 sec)
+
+
+mysql> CREATE VIEW No_Transaction AS SELECT acc_name,phone,balance FROM ACCOUNT WHERE balance >100000 AND acc_no NOT IN(SELECT acc_no FROM TRANSACTION WHERE YEAR(trans_date)=YEAR(CURRENT_DATE()) AND MONTH(trans_date)=MONTH(CURRENT_DATE()));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SELECT * FROM No_Transaction;                                           
++----------+-------+---------+
+| acc_name | phone | balance |
++----------+-------+---------+
+| Shyam    |  3355 |  200000 |
+| Lex      |  6655 |  300000 |
+| Nex      |  7755 |  500000 |
+| Jake     |  8855 | 5000000 |
++----------+-------+---------+
+4 rows in set, 4 warnings (0.00 sec)
+
+mysql> UPDATE ACCOUNT SET acc_type='SB' WHERE balance<5000;
+Query OK, 3 rows affected (0.03 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> SELECT * FROM ACCOUNT;
++--------+----------+------------+------------+----------+---------+-------+
+| acc_no | acc_name | address    | pan        | acc_type | balance | phone |
++--------+----------+------------+------------+----------+---------+-------+
+|    201 | Ram      | Address 1  | DKUPGJS201 | SB       |    4300 |  2255 |
+|    202 | Shyam    | Address 2  | DKUPGJS202 | current  |  200000 |  3355 |
+|    203 | Rex      | Address 3  | DKUPGJS203 | savings  |   10000 |  4455 |
+|    204 | Tex      | Address 4  | DKUPGJS204 | SB       |    1000 |  5555 |
+|    205 | Lex      | Address 5  | DKUPGJS205 | savings  |  300000 |  6655 |
+|    206 | Nex      | Address 6  | DKUPGJS206 | current  |  500000 |  7755 |
+|    207 | John     | Address 7  | DKUPGJS207 | current  |    6000 |  7755 |
+|    208 | Jake     | Address 8  | DKUPGJS208 | savings  | 5000000 |  8855 |
+|    209 | Jin      | Address 9  | DKUPGJS209 | current  |    7000 |  9955 |
+|    210 | Jim      | Address 10 | DKUPGJS210 | SB       |    1500 |    66 |
+|    211 | Sully    | Address 11 | DKUPGJS211 | savings  |   70000 |  1166 |
++--------+----------+------------+------------+----------+---------+-------+
+11 rows in set (0.00 sec)
+
+mysql> INSERT INTO TRANSACTION (trans_id,acc_no,trans_date,amount,trans_type) SELECT (FLOOR(RAND()*100)), T.acc_no,CURRENT_DATE(),5000000,'current' FROM TRANSACTION T,ACCOUNT A WHERE (YEAR(trans_date)=YEAR(CURRENT_DATE()) OR YEAR(trans_date)<>YEAR(CURRENT_DATE())) AND MONTH(trans_date)<>MONTH(CURRENT_DATE()) AND T.acc_no=A.acc_no AND A.balance>200000 GROUP BY T.acc_no,T.trans_date,A.balance;
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM TRANSACTION;                                                                                                                                       +----------+--------+------------+---------+------------+
+| trans_id | acc_no | trans_date | amount  | trans_type |
++----------+--------+------------+---------+------------+
+|        1 |    201 | 2019-05-03 |    4300 | credit     |
+|        2 |    201 | 2020-05-03 |    3000 | debit      |
+|        3 |    202 | 2018-05-03 |  100000 | credit     |
+|        4 |    203 | 2022-05-12 |    5000 | debit      |
+|        5 |    204 | 2017-04-03 |    1000 | credit     |
+|        6 |    205 | 2019-05-03 |    3000 | credit     |
+|        7 |    205 | 2022-05-10 |   10000 | debit      |
+|        8 |    206 | 2019-08-14 |   60000 | credit     |
+|        9 |    207 | 2022-05-12 |     300 | debit      |
+|       10 |    208 | 2020-08-18 |  100000 | debit      |
+|       11 |    208 | 2021-04-12 |    5000 | debit      |
+|       12 |    209 | 2022-05-11 |     500 | credit     |
+|       13 |    210 | 2020-05-03 |    1100 | debit      |
+|       14 |    211 | 2015-12-12 |   10000 | credit     |
+|       23 |    208 | 2022-05-04 | 5000000 | current    |
+|       26 |    208 | 2022-05-04 | 5000000 | current    |
+|       36 |    206 | 2022-05-04 | 5000000 | current    |
++----------+--------+------------+---------+------------+
+17 rows in set (0.00 sec)
+
+
+
+
+
+

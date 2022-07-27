@@ -1,0 +1,228 @@
+Gokul Krishna R
+20220040
+
+mysql> USE EMP_DETAILS;
+
+mysql> SHOW TABLES;
++-----------------------+
+| Tables_in_EMP_DETAILS |
++-----------------------+
+| DEPARTMENT            |
+| EMPLOYEE              |
++-----------------------+ 
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-----+---------+--------+------+--------+------------+-----------------+-----------+---------+---------+
+| ENO | ENAME   | SALARY | DNO  | MNGRNO | DOJ        | JOB             | ADDRESS   | CITY    | PINCODE |
++-----+---------+--------+------+--------+------------+-----------------+-----------+---------+---------+
+|   1 | Rex     |  60000 |   40 |   NULL | 2005-01-19 | SENIOR MANAGER  | Address 1 | KOCHI   |  682022 |
+|   2 | Tex     |  30000 |   10 |      1 | 2005-01-19 | MANAGER         | Address 2 | CHENNAI |  682022 |
+|   3 | Max     |  30000 |   30 |      1 | 1998-01-19 | MANAGER         | Address 1 | KOCHI   |  682022 |
+|   4 | Lex     |  30000 |   20 |      1 | 2000-01-19 | MANAGER         | Address 3 | MUMBAI  |  682022 |
+|   5 | Nex     |  30000 |   40 |      1 | 2004-01-19 | MANAGER         | Address 2 | CHENNAI |  682022 |
+|   6 | Ken     |   9600 |   10 |      2 | 2000-01-19 | CLERK           | Address 1 | KOCHI   |  682022 |
+|   7 | Ten     |   7200 |   10 |      2 | 2000-01-19 | QUALITY CHECKER | Address 2 | CHENNAI |  682022 |
+|   9 | Ram     |   8040 |   20 |      4 | 2004-01-19 | CLERK           | Address 3 | MUMBAI  |  682022 |
+|  12 | Rohit   |  14400 |   20 |      4 | 2000-01-19 | QUALITY CHECKER | Address 3 | MUMBAI  |  682022 |
+|  13 | Jenson  |   9600 |   30 |      3 | 1999-01-19 | CLERK           | Address 3 | MUMBAI  |  682022 |
+|  14 | Johnson |   8160 |   30 |      3 | 2000-01-19 | WORKER          | Address 1 | KOCHI   |  682022 |
+|  16 | Jack    |   8400 |   40 |      5 | 2009-01-19 | CLERK           | Address 2 | CHENNAI |  682022 |
+|  17 | Jim     |  12000 |   40 |      5 | 1998-01-19 | CLERK           | Address 1 | KOCHI   |  682022 |
+|  18 | Jill    |  10000 |   40 |      5 | 2010-01-19 | SENIOR CLERK    | Address 3 | MUMBAI  |  682022 |
+|  19 | Jin     |  24000 |   10 |      1 | 2009-01-19 | MANAGER         | Address 3 | MUMBAI  |  682022 |
+|  20 | Kazuya  |  18000 |   20 |      1 | 2006-01-19 | MANAGER         | Address 1 | KOCHI   |  682022 |
+|  22 | Isayama |  42000 |   40 |      1 | 2005-01-19 | MANAGER         | Address 1 | KOCHI   |  682022 |
++-----+---------+--------+------+--------+------------+-----------------+-----------+---------+---------+
+17 rows in set (0.00 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++-----+------------+-------+
+| DNO | DNAME      | D_HOD |
++-----+------------+-------+
+|  10 | Marketing  | Tex   |
+|  20 | Sales      | Lex   |
+|  30 | Accounting | Max   |
+|  40 | Management | Nex   |
++-----+------------+-------+
+4 rows in set (0.00 sec)
+
+UPDATE DEPARTMENT SET D_HOD='Tex' WHERE DNO=10;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> UPDATE DEPARTMENT SET D_HOD='Lex' WHERE DNO=20;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE DEPARTMENT SET D_HOD='Max' WHERE DNO=30;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE DEPARTMENT SET D_HOD='Nex' WHERE DNO=40;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM DEPARTMENT;
++-----+------------+-------+
+| DNO | DNAME      | D_HOD |
++-----+------------+-------+
+|  10 | Marketing  | Tex   |
+|  20 | Sales      | Lex   |
+|  30 | Accounting | Max   |
+|  40 | Management | Nex   |
++-----+------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEE SET JOB='PROFESSOR' WHERE ENO=2;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMPLOYEE SET JOB='ASSOCIATE PROFESSOR' WHERE ENO=3;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMPLOYEE SET JOB='ASSISTANT PROFESSOR' WHERE ENO=4;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMPLOYEE SET JOB='GUEST LECTURER' WHERE ENO=5;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE;
++-----+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+
+| ENO | ENAME   | SALARY | DNO  | MNGRNO | DOJ        | JOB                 | ADDRESS   | CITY    | PINCODE |
++-----+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+
+|   1 | Rex     |  60000 |   40 |   NULL | 2005-01-19 | SENIOR MANAGER      | Address 1 | KOCHI   |  682022 |
+|   2 | Tex     |  30000 |   10 |      1 | 2005-01-19 | PROFESSOR           | Address 2 | CHENNAI |  682022 |
+|   3 | Max     |  30000 |   30 |      1 | 1998-01-19 | ASSOCIATE PROFESSOR | Address 1 | KOCHI   |  682022 |
+|   4 | Lex     |  30000 |   20 |      1 | 2000-01-19 | ASSISTANT PROFESSOR | Address 3 | MUMBAI  |  682022 |
+|   5 | Nex     |  30000 |   40 |      1 | 2004-01-19 | GUEST LECTURER      | Address 2 | CHENNAI |  682022 |
+|   6 | Ken     |   9600 |   10 |      2 | 2000-01-19 | CLERK               | Address 1 | KOCHI   |  682022 |
+|   7 | Ten     |   7200 |   10 |      2 | 2000-01-19 | QUALITY CHECKER     | Address 2 | CHENNAI |  682022 |
+|   9 | Ram     |   8040 |   20 |      4 | 2004-01-19 | CLERK               | Address 3 | MUMBAI  |  682022 |
+|  12 | Rohit   |  14400 |   20 |      4 | 2000-01-19 | QUALITY CHECKER     | Address 3 | MUMBAI  |  682022 |
+|  13 | Jenson  |   9600 |   30 |      3 | 1999-01-19 | CLERK               | Address 3 | MUMBAI  |  682022 |
+|  14 | Johnson |   8160 |   30 |      3 | 2000-01-19 | WORKER              | Address 1 | KOCHI   |  682022 |
+|  16 | Jack    |   8400 |   40 |      5 | 2009-01-19 | CLERK               | Address 2 | CHENNAI |  682022 |
+|  17 | Jim     |  12000 |   40 |      5 | 1998-01-19 | CLERK               | Address 1 | KOCHI   |  682022 |
+|  18 | Jill    |  10000 |   40 |      5 | 2010-01-19 | SENIOR CLERK        | Address 3 | MUMBAI  |  682022 |
+|  19 | Jin     |  24000 |   10 |      1 | 2009-01-19 | MANAGER             | Address 3 | MUMBAI  |  682022 |
+|  20 | Kazuya  |  18000 |   20 |      1 | 2006-01-19 | MANAGER             | Address 1 | KOCHI   |  682022 |
+|  22 | Isayama |  42000 |   40 |      1 | 2005-01-19 | MANAGER             | Address 1 | KOCHI   |  682022 |
++-----+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+
+17 rows in set (0.00 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++-----+------------+-------+
+| DNO | DNAME      | D_HOD |
++-----+------------+-------+
+|  10 | Marketing  | Tex   |
+|  20 | Sales      | Lex   |
+|  30 | Accounting | Max   |
+|  40 | Management | Nex   |
++-----+------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT ENAME AS NAME,JOB AS DESIGNATION,DNAME AS DEPARTMENT FROM EMPLOYEE,DEPARTMENT WHERE ENAME=D_HOD;
++------+---------------------+------------+
+| NAME | DESIGNATION         | DEPARTMENT |
++------+---------------------+------------+
+| Tex  | PROFESSOR           | Marketing  |
+| Max  | ASSOCIATE PROFESSOR | Accounting |
+| Lex  | ASSISTANT PROFESSOR | Sales      |
+| Nex  | GUEST LECTURER      | Management |
++------+---------------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO DEPARTMENT VALUES(50,'Human Resource','John');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++-----+----------------+-------+
+| DNO | DNAME          | D_HOD |
++-----+----------------+-------+
+|  10 | Marketing      | Tex   |
+|  20 | Sales          | Lex   |
+|  30 | Accounting     | Max   |
+|  40 | Management     | Nex   |
+|  50 | Human Resource | John  |
++-----+----------------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE LEFT OUTER JOIN DEPARTMENT ON EMPLOYEE.DNO=DEPARTMENT.DNO;
++-----+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+------+------------+-------+
+| ENO | ENAME   | SALARY | DNO  | MNGRNO | DOJ        | JOB                 | ADDRESS   | CITY    | PINCODE | DNO  | DNAME      | D_HOD |
++-----+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+------+------------+-------+
+|   2 | Tex     |  30000 |   10 |      1 | 2005-01-19 | PROFESSOR           | Address 2 | CHENNAI |  682022 |   10 | Marketing  | Tex   |
+|   6 | Ken     |   9600 |   10 |      2 | 2000-01-19 | CLERK               | Address 1 | KOCHI   |  682022 |   10 | Marketing  | Tex   |
+|   7 | Ten     |   7200 |   10 |      2 | 2000-01-19 | QUALITY CHECKER     | Address 2 | CHENNAI |  682022 |   10 | Marketing  | Tex   |
+|  19 | Jin     |  24000 |   10 |      1 | 2009-01-19 | MANAGER             | Address 3 | MUMBAI  |  682022 |   10 | Marketing  | Tex   |
+|   4 | Lex     |  30000 |   20 |      1 | 2000-01-19 | ASSISTANT PROFESSOR | Address 3 | MUMBAI  |  682022 |   20 | Sales      | Lex   |
+|   9 | Ram     |   8040 |   20 |      4 | 2004-01-19 | CLERK               | Address 3 | MUMBAI  |  682022 |   20 | Sales      | Lex   |
+|  12 | Rohit   |  14400 |   20 |      4 | 2000-01-19 | QUALITY CHECKER     | Address 3 | MUMBAI  |  682022 |   20 | Sales      | Lex   |
+|  20 | Kazuya  |  18000 |   20 |      1 | 2006-01-19 | MANAGER             | Address 1 | KOCHI   |  682022 |   20 | Sales      | Lex   |
+|   3 | Max     |  30000 |   30 |      1 | 1998-01-19 | ASSOCIATE PROFESSOR | Address 1 | KOCHI   |  682022 |   30 | Accounting | Max   |
+|  13 | Jenson  |   9600 |   30 |      3 | 1999-01-19 | CLERK               | Address 3 | MUMBAI  |  682022 |   30 | Accounting | Max   |
+|  14 | Johnson |   8160 |   30 |      3 | 2000-01-19 | WORKER              | Address 1 | KOCHI   |  682022 |   30 | Accounting | Max   |
+|   1 | Rex     |  60000 |   40 |   NULL | 2005-01-19 | SENIOR MANAGER      | Address 1 | KOCHI   |  682022 |   40 | Management | Nex   |
+|   5 | Nex     |  30000 |   40 |      1 | 2004-01-19 | GUEST LECTURER      | Address 2 | CHENNAI |  682022 |   40 | Management | Nex   |
+|  16 | Jack    |   8400 |   40 |      5 | 2009-01-19 | CLERK               | Address 2 | CHENNAI |  682022 |   40 | Management | Nex   |
+|  17 | Jim     |  12000 |   40 |      5 | 1998-01-19 | CLERK               | Address 1 | KOCHI   |  682022 |   40 | Management | Nex   |
+|  18 | Jill    |  10000 |   40 |      5 | 2010-01-19 | SENIOR CLERK        | Address 3 | MUMBAI  |  682022 |   40 | Management | Nex   |
+|  22 | Isayama |  42000 |   40 |      1 | 2005-01-19 | MANAGER             | Address 1 | KOCHI   |  682022 |   40 | Management | Nex   |
++-----+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+------+------------+-------+
+17 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE RIGHT OUTER JOIN DEPARTMENT ON EMPLOYEE.DNO=DEPARTMENT.DNO;
++------+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+-----+----------------+-------+
+| ENO  | ENAME   | SALARY | DNO  | MNGRNO | DOJ        | JOB                 | ADDRESS   | CITY    | PINCODE | DNO | DNAME          | D_HOD |
++------+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+-----+----------------+-------+
+|    2 | Tex     |  30000 |   10 |      1 | 2005-01-19 | PROFESSOR           | Address 2 | CHENNAI |  682022 |  10 | Marketing      | Tex   |
+|    6 | Ken     |   9600 |   10 |      2 | 2000-01-19 | CLERK               | Address 1 | KOCHI   |  682022 |  10 | Marketing      | Tex   |
+|    7 | Ten     |   7200 |   10 |      2 | 2000-01-19 | QUALITY CHECKER     | Address 2 | CHENNAI |  682022 |  10 | Marketing      | Tex   |
+|   19 | Jin     |  24000 |   10 |      1 | 2009-01-19 | MANAGER             | Address 3 | MUMBAI  |  682022 |  10 | Marketing      | Tex   |
+|    4 | Lex     |  30000 |   20 |      1 | 2000-01-19 | ASSISTANT PROFESSOR | Address 3 | MUMBAI  |  682022 |  20 | Sales          | Lex   |
+|    9 | Ram     |   8040 |   20 |      4 | 2004-01-19 | CLERK               | Address 3 | MUMBAI  |  682022 |  20 | Sales          | Lex   |
+|   12 | Rohit   |  14400 |   20 |      4 | 2000-01-19 | QUALITY CHECKER     | Address 3 | MUMBAI  |  682022 |  20 | Sales          | Lex   |
+|   20 | Kazuya  |  18000 |   20 |      1 | 2006-01-19 | MANAGER             | Address 1 | KOCHI   |  682022 |  20 | Sales          | Lex   |
+|    3 | Max     |  30000 |   30 |      1 | 1998-01-19 | ASSOCIATE PROFESSOR | Address 1 | KOCHI   |  682022 |  30 | Accounting     | Max   |
+|   13 | Jenson  |   9600 |   30 |      3 | 1999-01-19 | CLERK               | Address 3 | MUMBAI  |  682022 |  30 | Accounting     | Max   |
+|   14 | Johnson |   8160 |   30 |      3 | 2000-01-19 | WORKER              | Address 1 | KOCHI   |  682022 |  30 | Accounting     | Max   |
+|    1 | Rex     |  60000 |   40 |   NULL | 2005-01-19 | SENIOR MANAGER      | Address 1 | KOCHI   |  682022 |  40 | Management     | Nex   |
+|    5 | Nex     |  30000 |   40 |      1 | 2004-01-19 | GUEST LECTURER      | Address 2 | CHENNAI |  682022 |  40 | Management     | Nex   |
+|   16 | Jack    |   8400 |   40 |      5 | 2009-01-19 | CLERK               | Address 2 | CHENNAI |  682022 |  40 | Management     | Nex   |
+|   17 | Jim     |  12000 |   40 |      5 | 1998-01-19 | CLERK               | Address 1 | KOCHI   |  682022 |  40 | Management     | Nex   |
+|   18 | Jill    |  10000 |   40 |      5 | 2010-01-19 | SENIOR CLERK        | Address 3 | MUMBAI  |  682022 |  40 | Management     | Nex   |
+|   22 | Isayama |  42000 |   40 |      1 | 2005-01-19 | MANAGER             | Address 1 | KOCHI   |  682022 |  40 | Management     | Nex   |
+| NULL | NULL    |   NULL | NULL |   NULL | NULL       | NULL                | NULL      | NULL    |    NULL |  50 | Human Resource | John  |
++------+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+-----+----------------+-------+
+18 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE LEFT OUTER JOIN DEPARTMENT ON EMPLOYEE.DNO=DEPARTMENT.DNO UNION SELECT * FROM EMPLOYEE RIGHT OUTER JOIN DEPARTMENT ON EMPLOYEE.DNO=DEPARTMENT.DNO;
++------+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+------+----------------+-------+
+| ENO  | ENAME   | SALARY | DNO  | MNGRNO | DOJ        | JOB                 | ADDRESS   | CITY    | PINCODE | DNO  | DNAME          | D_HOD |
++------+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+------+----------------+-------+
+|    2 | Tex     |  30000 |   10 |      1 | 2005-01-19 | PROFESSOR           | Address 2 | CHENNAI |  682022 |   10 | Marketing      | Tex   |
+|    6 | Ken     |   9600 |   10 |      2 | 2000-01-19 | CLERK               | Address 1 | KOCHI   |  682022 |   10 | Marketing      | Tex   |
+|    7 | Ten     |   7200 |   10 |      2 | 2000-01-19 | QUALITY CHECKER     | Address 2 | CHENNAI |  682022 |   10 | Marketing      | Tex   |
+|   19 | Jin     |  24000 |   10 |      1 | 2009-01-19 | MANAGER             | Address 3 | MUMBAI  |  682022 |   10 | Marketing      | Tex   |
+|    4 | Lex     |  30000 |   20 |      1 | 2000-01-19 | ASSISTANT PROFESSOR | Address 3 | MUMBAI  |  682022 |   20 | Sales          | Lex   |
+|    9 | Ram     |   8040 |   20 |      4 | 2004-01-19 | CLERK               | Address 3 | MUMBAI  |  682022 |   20 | Sales          | Lex   |
+|   12 | Rohit   |  14400 |   20 |      4 | 2000-01-19 | QUALITY CHECKER     | Address 3 | MUMBAI  |  682022 |   20 | Sales          | Lex   |
+|   20 | Kazuya  |  18000 |   20 |      1 | 2006-01-19 | MANAGER             | Address 1 | KOCHI   |  682022 |   20 | Sales          | Lex   |
+|    3 | Max     |  30000 |   30 |      1 | 1998-01-19 | ASSOCIATE PROFESSOR | Address 1 | KOCHI   |  682022 |   30 | Accounting     | Max   |
+|   13 | Jenson  |   9600 |   30 |      3 | 1999-01-19 | CLERK               | Address 3 | MUMBAI  |  682022 |   30 | Accounting     | Max   |
+|   14 | Johnson |   8160 |   30 |      3 | 2000-01-19 | WORKER              | Address 1 | KOCHI   |  682022 |   30 | Accounting     | Max   |
+|    1 | Rex     |  60000 |   40 |   NULL | 2005-01-19 | SENIOR MANAGER      | Address 1 | KOCHI   |  682022 |   40 | Management     | Nex   |
+|    5 | Nex     |  30000 |   40 |      1 | 2004-01-19 | GUEST LECTURER      | Address 2 | CHENNAI |  682022 |   40 | Management     | Nex   |
+|   16 | Jack    |   8400 |   40 |      5 | 2009-01-19 | CLERK               | Address 2 | CHENNAI |  682022 |   40 | Management     | Nex   |
+|   17 | Jim     |  12000 |   40 |      5 | 1998-01-19 | CLERK               | Address 1 | KOCHI   |  682022 |   40 | Management     | Nex   |
+|   18 | Jill    |  10000 |   40 |      5 | 2010-01-19 | SENIOR CLERK        | Address 3 | MUMBAI  |  682022 |   40 | Management     | Nex   |
+|   22 | Isayama |  42000 |   40 |      1 | 2005-01-19 | MANAGER             | Address 1 | KOCHI   |  682022 |   40 | Management     | Nex   |
+| NULL | NULL    |   NULL | NULL |   NULL | NULL       | NULL                | NULL      | NULL    |    NULL |   50 | Human Resource | John  |
++------+---------+--------+------+--------+------------+---------------------+-----------+---------+---------+------+----------------+-------+
+18 rows in set (0.00 sec)
+
+
+

@@ -1,0 +1,99 @@
+mysql> CREATE DATABASE FIBONACCI;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE FIBONACCI;
+Database changed
+
+
+DELIMITER #
+CREATE PROCEDURE fib(n int)
+BEGIN 
+DECLARE a INT;
+DECLARE b INT;
+DECLARE s INT;
+DECLARE c INT;
+SET a=0;
+SET b=1;
+SET s=0;
+SET c=0;
+CREATE TABLE fs(num int);
+IF (n=1 OR n=0) THEN INSERT INTO fs VALUES(a);
+ELSE
+INSERT INTO fs VALUES(a);
+INSERT INTO fs VALUES(b);
+WHILE c < n-2
+DO
+SET s=a+b;
+INSERT INTO fs VALUES(s);
+SET a=b;
+SET b=s;
+SET c=c+1;
+END WHILE;
+END IF;
+SELECT * FROM fs;
+DROP TABLE fs;
+END #
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+mysql> delimiter ;
+mysql> call fib(6);
++------+
+| num  |
++------+
+|    0 |
+|    1 |
+|    1 |
+|    2 |
+|    3 |
+|    5 |
++------+
+6 rows in set (0.58 sec)
+
+Query OK, 0 rows affected (0.71 sec)
+
+mysql> call fib(2);
++------+
+| num  |
++------+
+|    0 |
+|    1 |
++------+
+2 rows in set (0.30 sec)
+
+Query OK, 0 rows affected (0.50 sec)
+
+mysql> call fib(1);
++------+
+| num  |
++------+
+|    0 |
++------+
+1 row in set (0.28 sec)
+
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> call fib(0);
++------+
+| num  |
++------+
+|    0 |
++------+
+1 row in set (0.27 sec)
+
+Query OK, 0 rows affected (0.47 sec)
+
+mysql> call fib(3);
++------+
+| num  |
++------+
+|    0 |
+|    1 |
+|    1 |
++------+
+3 rows in set (0.47 sec)
+
+Query OK, 0 rows affected (0.64 sec)
+
+

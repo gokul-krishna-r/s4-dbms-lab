@@ -1,0 +1,74 @@
+mysql> CREATE DATABASE CURSOR_STUDENT;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE CURSOR_STUDENT;
+Database changed
+
+mysql> CREATE TABLE student(rollno INT PRIMARY KEY,name VARCHAR(28),sub1 INT,sub2 INT,sub3 INT,sub4 INT,sub5 INT,sub6 INT,grade VARCHAR(3));
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> DESC student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | int(11)     | NO   | PRI | NULL    |       |
+| name   | varchar(28) | YES  |     | NULL    |       |
+| sub1   | int(11)     | YES  |     | NULL    |       |
+| sub2   | int(11)     | YES  |     | NULL    |       |
+| sub3   | int(11)     | YES  |     | NULL    |       |
+| sub4   | int(11)     | YES  |     | NULL    |       |
+| sub5   | int(11)     | YES  |     | NULL    |       |
+| sub6   | int(11)     | YES  |     | NULL    |       |
+| grade  | varchar(3)  | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> INSERT INTO student(rollno,name,sub1,sub2,sub3,sub4,sub5,sub6) VALUES(1,'John',50,70,90,100,90,110),(2,'Jim',100,100,100,90,80,50),(3,"Jake",100,45,45,100,50,70),(4,'Jin',100,50,50,50,50,101);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM student;
++--------+------+------+------+------+------+------+------+-------+
+| rollno | name | sub1 | sub2 | sub3 | sub4 | sub5 | sub6 | grade |
++--------+------+------+------+------+------+------+------+-------+
+|      1 | John |   50 |   70 |   90 |  100 |   90 |  110 | NULL  |
+|      2 | Jim  |  100 |  100 |  100 |   90 |   80 |   50 | NULL  |
+|      3 | Jake |  100 |   45 |   45 |  100 |   50 |   70 | NULL  |
+|      4 | Jin  |  100 |   50 |   50 |   50 |   50 |  101 | NULL  |
++--------+------+------+------+------+------+------+------+-------+
+4 rows in set (0.00 sec)
+
+DELIMITER #
+DROP PROCEDURE IF EXISTS calc_grade;
+CREATE PROCEDURE calc_grade(srollno INT)
+BEGIN
+DECLARE sname VARCHAR(20);
+DECLARE ssub1 INT;
+DECLARE ssub2 INT;
+DECLARE ssub3 INT;
+DECLARE ssub4 INT;
+DECLARE ssub5 INT;
+DECLARE ssub6 INT;
+DECLARE sgrade VARCHAR(3);
+DECLARE stotal INT;
+DECLARE flag INT DEFAULT 0;
+DECLARE cur CURSOR FOR SELECT rollno,name,sub1,sub2,sub3,sub4,sub5,sub6 FROM student WHERE rollno=srollno;
+DECLARE continue handler for not found set flag =1;
+OPEN cur;
+readloop: loop
+IF(flag=1) THEN leave readloop;
+ELSE fetch cur into srollno,sname,ssub1,ssub2,ssub3,ssub4,ssub5,ssub6;
+END IF;
+END loop;
+CLOSE cur;
+SET stotal=ssub1+ssub2+ssub3+ssub4+ssub5+ssub6;
+IF stotal>480 THEN SET sgrade='A';
+ELSEIF stotal>400 THEN SET sgrade='B+';
+ELSEIF stotal>360 THEN SET sgrade='B';
+ELSEIF stotal>300 THEN SET sgrade='C';
+ELSE SET sgrade='F';
+END IF;
+UPDATE student SET grade=sgrade WHERE rollno=srollno;
+SELECT srollno AS 'Roll No',sname AS 'Name',ssub1 AS 'Sub 1',ssub2 AS 'Sub 2',ssub3 AS 'Sub 3',ssub4 AS 'Sub 4',ssub5 AS 'Sub 5',ssub6 AS 'Sub 6',stotal AS 'Total',sgrade AS 'Grade';
+END #
+DELIMITER ;

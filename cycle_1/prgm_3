@@ -1,0 +1,114 @@
+Gokul Krishna R
+20220040
+
+mysql> CREATE DATABASE STATE;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE STATE;
+Database changed
+mysql> CREATE TABLE KERALA(NAME VARCHAR(28) PRIMARY KEY,LITERACY INT,POPULATION FLOAT,AREA FLOAT);
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> CREATE TABLE TAMILNADU(NAME VARCHAR(28) PRIMARY KEY,LITERACY INT,POPULATION FLOAT,AREA FLOAT);
+Query OK, 0 rows affected (0.40 sec)
+
+mysql> INSERT INTO KERALA VALUES('Alappuzha',90,900099,215),('Ernakulam',97,1000000,300),('Kannur',89,256879,289),('Kozhikode',95,300456,345),('Palakkad',80,899128,260),('Kollam',87,2039393,165),('Wayanad',70,394844,320),('Thrisur',80,304845,200),('Thiruvananthapuram',89,273827,428),('Pathanamthitta',79,4694696,546);
+Query OK, 10 rows affected (0.08 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM KERALA;
+
++--------------------+----------+------------+------+
+| NAME               | LITERACY | POPULATION | AREA |
++--------------------+----------+------------+------+
+| Alappuzha          |       90 |     900099 |  215 |
+| Ernakulam          |       97 |    1000000 |  300 |
+| Kannur             |       89 |     256879 |  289 |
+| Kollam             |       87 |    2039390 |  165 |
+| Kozhikode          |       95 |     300456 |  345 |
+| Palakkad           |       80 |     899128 |  260 |
+| Pathanamthitta     |       79 |    4694700 |  546 |
+| Thiruvananthapuram |       89 |     273827 |  428 |
+| Thrisur            |       80 |     304845 |  200 |
+| Wayanad            |       70 |     394844 |  320 |
++--------------------+----------+------------+------+
+10 rows in set (0.00 sec)
+
+mysql> INSERT INTO TAMILNADU VALUES('Chennai',80,798173,200),('Coimbatore',70,734987,59),('Trichi',90,464753,455),('Madurai',79,289827,344),('Pollachi',95,384244,245),('Kanyakumari',67,3202844,494),('Hosur',87,348297,296),('Selam',89,326843,390);
+Query OK, 8 rows affected (0.04 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM TAMILNADU;
++-------------+----------+------------+------+
+| NAME        | LITERACY | POPULATION | AREA |
++-------------+----------+------------+------+
+| Chennai     |       80 |     798173 |  200 |
+| Coimbatore  |       70 |     734987 |   59 |
+| Hosur       |       87 |     348297 |  296 |
+| Kanyakumari |       67 |    3202840 |  494 |
+| Madurai     |       79 |     289827 |  344 |
+| Pollachi    |       95 |     384244 |  245 |
+| Selam       |       89 |     326843 |  390 |
+| Trichi      |       90 |     464753 |  455 |
++-------------+----------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT K.NAME AS KERALA,T.NAME AS TAMILNADU,K.LITERACY AS 'COMMON LITERACY' FROM KERALA K,TAMILNADU T WHERE K.LITERACY=T.LITERACY;
++--------------------+------------+-----------------+
+| KERALA             | TAMILNADU  | COMMON LITERACY |
++--------------------+------------+-----------------+
+| Alappuzha          | Trichi     |              90 |
+| Kannur             | Selam      |              89 |
+| Kollam             | Hosur      |              87 |
+| Kozhikode          | Pollachi   |              95 |
+| Palakkad           | Chennai    |              80 |
+| Pathanamthitta     | Madurai    |              79 |
+| Thiruvananthapuram | Selam      |              89 |
+| Thrisur            | Chennai    |              80 |
+| Wayanad            | Coimbatore |              70 |
++--------------------+------------+-----------------+
+9 rows in set (0.01 sec)
+
+mysql> SELECT NAME AS DISTRICTS FROM KERALA UNION SELECT NAME AS DISTRICTS FROM TAMILNADU;
++--------------------+
+| DISTRICTS          |
++--------------------+
+| Alappuzha          |
+| Ernakulam          |
+| Kannur             |
+| Kollam             |
+| Kozhikode          |
+| Palakkad           |
+| Pathanamthitta     |
+| Thiruvananthapuram |
+| Thrisur            |
+| Wayanad            |
+| Chennai            |
+| Coimbatore         |
+| Hosur              |
+| Kanyakumari        |
+| Madurai            |
+| Pollachi           |
+| Selam              |
+| Trichi             |
++--------------------+
+18 rows in set (0.00 sec
+
+mysql> SELECT NAME AS 'KERALA MINUS TAMILNADU' ,LITERACY FROM KERALA WHERE LITERACY NOT IN(SELECT LITERACY FROM TAMILNADU);
++------------------------+----------+
+| KERALA MINUS TAMILNADU | LITERACY |
++------------------------+----------+
+| Ernakulam              |       97 |
++------------------------+----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT NAME AS 'TAMILNADU MINUS KERALA' ,LITERACY FROM TAMILNADU WHERE LITERACY NOT IN(SELECT LITERACY FROM KERALA);
++------------------------+----------+
+| TAMILNADU MINUS KERALA | LITERACY |
++------------------------+----------+
+| Kanyakumari            |       67 |
++------------------------+----------+
+1 row in set (0.00 sec)
+
+
+

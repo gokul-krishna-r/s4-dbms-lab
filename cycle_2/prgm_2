@@ -1,0 +1,173 @@
+mysql> CREATE DATABASE BANK_ACC_1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE BANK_ACC_1;
+Database changed
+
+mysql> CREATE TABLE ACCOUNT(acc_no INT PRIMARY KEY,acc_name VARCHAR(28),balance INT,phone INT);
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> CREATE TABLE ACCOUNT(acc_no INT PRIMARY KEY,acc_name VARCHAR(28),address VARCHAR(28),pa
+n VARCHAR(28),acc_type VARCHAR(28),balance INT,phone INT);
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> DESC ACCOUNT;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| acc_no   | int(11)     | NO   | PRI | NULL    |       |
+| acc_name | varchar(28) | YES  |     | NULL    |       |
+| balance  | int(11)     | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE TRANSACTION(trans_id INT PRIMARY KEY,acc_no INT,trans_date DATE, amount INT,trans_type VARCHAR(28));
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> DESC TRANSACTION;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| trans_id   | int(11)     | NO   | PRI | NULL    |       |
+| acc_no     | int(11)     | YES  |     | NULL    |       |
+| trans_date | date        | YES  |     | NULL    |       |
+| amount     | int(11)     | YES  |     | NULL    |       |
+| trans_type | varchar(28) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES(201,'Ram',2255),(202,'Shyam',3355),(203,'Rex',4455),(204,'Tex',5555),(205,'Lex',6655),(206,'Nex',7755),(207,'John',7755),(208,'Jake',8855),(209,'Jin',9955),(210
+,'Jim',0066),(211,'Sully',1166);
+Query OK, 11 rows affected (0.03 sec)
+Records: 11 Duplicates: 0 Warnings: 0
+
+mysql> SELECT * FROM ACCOUNT;
++--------+----------+---------+
+| acc_no | acc_name | balance |
++--------+----------+---------+
+|    201 | Ram      |    2255 |
+|    202 | Shyam    |    3355 |
+|    203 | Rex      |    4455 |
+|    204 | Tex      |    5555 |
+|    205 | Lex      |    6655 |
+|    206 | Nex      |    7755 |
+|    207 | John     |    7755 |
+|    208 | Jake     |    8855 |
+|    209 | Jin      |    9955 |
+|    210 | Jim      |      66 |
+|    211 | Sully    |    1166 |
++--------+----------+---------+
+11 rows in set (0.00 sec)
+
+mysql> INSERT INTO TRANSACTION VALUES(0001,201,'2019-5-3',4300,'credit'),(0002,201,'2020-5-3',3000,'debit'),(0003,202,'2018-5-3',100000,'credit'),(0004,203,'2022-5-12',5000,'debit'),(0005,204,'2017-4-3',1000,'credit'),(0006,205,'2019-5-3',3000,'credit'),(0007,205,'2022-5-10',10000,'debit'),(0008,206,'2019-8-14',60000,'credit'),(0009,207,'2022-5-12',300,'debit'),(0010,208,'2020-8-18',100000,'debit'),(0011,208,'2021-4-12',5000,'debit'),(0012,209,'2022-5-11',500,'credit'),(0013,210,'2020-5-3',1100,'debit'),(0014,211,'2015-12-12',10000,'credit');
+
+mysql> SELECT * FROM TRANSACTION;
++----------+--------+------------+--------+------------+
+| trans_id | acc_no | trans_date | amount | trans_type |
++----------+--------+------------+--------+------------+
+|        1 |    201 | 2019-05-03 |   4300 | credit     |
+|        2 |    201 | 2020-05-03 |   3000 | debit      |
+|        3 |    202 | 2018-05-03 | 100000 | credit     |
+|        4 |    203 | 2022-05-12 |   5000 | debit      |
+|        5 |    204 | 2017-04-03 |   1000 | credit     |
+|        6 |    205 | 2019-05-03 |   3000 | credit     |
+|        7 |    205 | 2022-05-10 |  10000 | debit      |
+|        8 |    206 | 2019-08-14 |  60000 | credit     |
+|        9 |    207 | 2022-05-12 |    300 | debit      |
+|       10 |    208 | 2020-08-18 | 100000 | debit      |
+|       11 |    208 | 2021-04-12 |   5000 | debit      |
+|       12 |    209 | 2022-05-11 |    500 | credit     |
+|       13 |    210 | 2020-05-03 |   1100 | debit      |
+|       14 |    211 | 2015-12-12 |  10000 | credit     |
++----------+--------+------------+--------+------------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT * FROM ACCOUNT WHERE balance=(SELECT MAX(balance) FROM ACCOUNT);
++--------+----------+---------+
+| acc_no | acc_name | balance |
++--------+----------+---------+
+|    209 | Jin      |    9955 |
++--------+----------+---------+
+1 row in set (0.00 sec)
+
+
+mysql> INSERT INTO TRANSACTION VALUES(0015,211,'2022-7-8',1000,'debit'),(0016,210,'2022-7-8',3000,'debit');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO TRANSACTION VALUES(0017,209,'2022-7-20',1000,'debit'),(0018,209,'2022-7-20',3000,'debit'),(0019,209,'2022-7-20',3000,'debit');
+Query OK, 3 rows affected (0.02 sec)
+
+
+mysql> SELECT * FROM TRANSACTION;
++----------+--------+------------+--------+------------+
+| trans_id | acc_no | trans_date | amount | trans_type |
++----------+--------+------------+--------+------------+
+|        1 |    201 | 2019-05-03 |   4300 | credit     |
+|        2 |    201 | 2020-05-03 |   3000 | debit      |
+|        3 |    202 | 2018-05-03 | 100000 | credit     |
+|        4 |    203 | 2022-05-12 |   5000 | debit      |
+|        5 |    204 | 2017-04-03 |   1000 | credit     |
+|        6 |    205 | 2019-05-03 |   3000 | credit     |
+|        7 |    205 | 2022-05-10 |  10000 | debit      |
+|        8 |    206 | 2019-08-14 |  60000 | credit     |
+|        9 |    207 | 2022-05-12 |    300 | debit      |
+|       10 |    208 | 2020-08-18 | 100000 | debit      |
+|       11 |    208 | 2021-04-12 |   5000 | debit      |
+|       12 |    209 | 2022-05-11 |    500 | credit     |
+|       13 |    210 | 2020-05-03 |   1100 | debit      |
+|       14 |    211 | 2015-12-12 |  10000 | credit     |
+|       15 |    211 | 2022-07-08 |   1000 | debit      |
+|       16 |    210 | 2022-07-08 |   3000 | debit      |
+|       17 |    209 | 2022-07-20 |   1000 | debit      |
+|       18 |    209 | 2022-07-20 |   3000 | debit      |
+|       19 |    209 | 2022-07-20 |   3000 | debit      |
++----------+--------+------------+--------+------------+
+19 rows in set (0.00 sec)
+
+
+mysql> SELECT a.acc_name as "Customer Name" FROM ACCOUNT a,TRANSACTION t WHERE (WEEK(t.trans_date)=WEEKOFYEAR(t.trans_date)) AND t.acc_no=a.acc_no GROUP BY a.acc_no,t.acc_no HAVING COUNT(t.trans_type)>=2; 
++---------------+
+| Customer Name |
++---------------+
+| Jin           |
+| Jim           |
++---------------+
+2 rows in set (0.00 sec)
+
+
+mysql> SELECT acc_name AS 'Name',balance AS 'Balance' FROM ACCOUNT WHERE acc_no IN (SELECT T.acc_no FROM TRANSACTION T WHERE T.trans_type='debit' AND T.amount > 2500 AND MONTH(T.trans_date)=MONTH(CURRENT_DATE()));
++------+---------+
+| Name | Balance |
++------+---------+
+| Jim  |      66 |
+| Jin  |    9955 |
++------+---------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> SELECT acc_name AS 'Name' FROM ACCOUNT A WHERE A.acc_no NOT IN(SELECT T.acc_no FROM TRANSACTION T WHERE MONTH(T.trans_date)=MONTH(CURRENT_DATE()) AND YEAR(T.trans_date)=YEAR(CURRENT_DATE()));
++-------+
+| Name  |
++-------+
+| Ram   |
+| Shyam |
+| Rex   |
+| Tex   |
+| Lex   |
+| Nex   |
+| John  |
+| Jake  |
++-------+
+8 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+

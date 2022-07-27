@@ -1,0 +1,75 @@
+Gokul Krishna R
+20220040
+
+mysql> CREATE DATABASE EVENODD;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE EVENODD;
+Database changed
+
+DELIMITER #
+CREATE PROCEDURE evenodd(num INT)
+BEGIN
+DECLARE COUNT INT;
+SET COUNT=0;
+CREATE TABLE even(n INT);
+CREATE TABLE odd(n INT);
+WHILE COUNT<num
+DO
+IF COUNT%2=0 THEN INSERT INTO even VALUES(COUNT);
+ELSE INSERT INTO odd VALUES (COUNT);
+END IF;
+SET COUNT=COUNT+1;
+END WHILE;
+SELECT even.n as 'Even', odd.n as 'Odd' FROM even LEFT JOIN odd On even.n+1=odd.n OR odd.n=null;
+DROP TABLE even;
+DROP TABLE odd;
+END #;
+
+mysql> delimiter ;
+mysql> call evenOdd(11);
++------+------+
+| Even | Odd  |
++------+------+
+|    0 |    1 |
+|    2 |    3 |
+|    4 |    5 |
+|    6 |    7 |
+|    8 |    9 |
+|   10 | NULL |
++------+------+
+6 rows in set (1.12 sec)
+
+mysql> call evenOdd(50);
++------+------+
+| Even | Odd  |
++------+------+
+|    0 |    1 |
+|    2 |    3 |
+|    4 |    5 |
+|    6 |    7 |
+|    8 |    9 |
+|   10 |   11 |
+|   12 |   13 |
+|   14 |   15 |
+|   16 |   17 |
+|   18 |   19 |
+|   20 |   21 |
+|   22 |   23 |
+|   24 |   25 |
+|   26 |   27 |
+|   28 |   29 |
+|   30 |   31 |
+|   32 |   33 |
+|   34 |   35 |
+|   36 |   37 |
+|   38 |   39 |
+|   40 |   41 |
+|   42 |   43 |
+|   44 |   45 |
+|   46 |   47 |
+|   48 |   49 |
++------+------+
+25 rows in set (2.53 sec)
+
+
