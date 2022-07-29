@@ -1,0 +1,75 @@
+mysql> CREATE DATABASE TRIGGER_BANK;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE TRIGGER_BANK;
+Database changed
+
+mysql> CREATE TABLE ACCOUNT(acc_no INT PRIMARY KEY,amount INT,type VARCHAR(28)); 
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> CREATE TABLE BANK(acc_no INT PRIMARY KEY,acc_name VARCHAR(28),balance INT);
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> INSERT INTO BANK VALUES(1001,'John',5000);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO BANK VALUES(1002,'Jim',3000),(1003,'Jake',10000);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM BANK;
++--------+----------+---------+
+| acc_no | acc_name | balance |
++--------+----------+---------+
+|   1001 | John     |    5000 |
+|   1002 | Jim      |    3000 |
+|   1003 | Jake     |   10000 |
++--------+----------+---------+
+3 rows in set (0.00 sec)
+
+
+DELIMITER #
+CREATE TRIGGER trg AFTER INSERT ON ACCOUNT FOR EACH ROW
+BEGIN
+IF NEW.TYPE  = "CREDIT" THEN update BANK set balance=balance+NEW.amount WHERE BANK.acc_no=NEW.acc_no;
+ELSEIF NEW.TYPE  = "DEBIT" THEN update BANK set balance=balance-NEW.amount WHERE BANK.acc_no=NEW.acc_no;
+END IF;
+END #
+DELIMITER ;
+
+mysql> INSERT INTO ACCOUNT VALUES(1001,4000,'CREDIT');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> SELECT * FROM ACCOUNT;
++--------+--------+--------+
+| acc_no | amount | type   |
++--------+--------+--------+
+|   1001 |   4000 | CREDIT |
++--------+--------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM BANK;
++--------+----------+---------+
+| acc_no | acc_name | balance |
++--------+----------+---------+
+|   1001 | John     |    9000 |
+|   1002 | Jim      |    3000 |
+|   1003 | Jake     |   10000 |
++--------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO ACCOUNT VALUES(1002,2000,'DEBIT');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM BANK;
++--------+----------+---------+
+| acc_no | acc_name | balance |
++--------+----------+---------+
+|   1001 | John     |    9000 |
+|   1002 | Jim      |    1000 |
+|   1003 | Jake     |   10000 |
++--------+----------+---------+
+3 rows in set (0.00 sec)
+
+
+
